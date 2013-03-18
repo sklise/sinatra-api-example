@@ -36,10 +36,15 @@ get '/things' do
   @things.to_json
 end
 
-# Route to create a new Thing
+# CREATE: Route to create a new Thing
 post '/things' do
   content_type :json
-  @thing = Thing.new(params)
+  # JSON is sent in the body of the http request. We need to parse the body
+  # from a string into JSON
+  params_json = JSON.parse(request.body.read)
+
+  @thing = Thing.new(params_json)
+
   if @thing.save
     @thing.to_json
   else
@@ -47,7 +52,7 @@ post '/things' do
   end
 end
 
-# Route to show a specific Thing based on its `id`
+# READ: Route to show a specific Thing based on its `id`
 get '/things/:id' do
   content_type :json
   @thing = Thing.get(params[:id])
@@ -59,8 +64,8 @@ get '/things/:id' do
   end
 end
 
-# Route to update a Thing
-post '/things/:id/update' do
+# UPDATE: Route to update a Thing
+put '/things/:id' do
   content_type :json
   params_json = JSON.parse(request.body.read)
 
@@ -74,13 +79,13 @@ post '/things/:id/update' do
   end
 end
 
-# Route to delete a Thing
-get '/things/:id/delete' do
+# DELETE: Route to delete a Thing
+delete '/things/:id/delete' do
   content_type :json
   @thing = Thing.get(params[:id])
 
   if @thing.destroy
-    {success: "ok"}.to_json
+    {:success => "ok"}.to_json
   else
     halt 500
   end
