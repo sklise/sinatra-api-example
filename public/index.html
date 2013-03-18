@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sinatra JSON API Example</title>
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Load THINGS data immediately
+      $.ajax({
+        url: '/things',
+        method: 'GET'
+      }).done(function (data) {
+        data.forEach(function (d) {
+          $('#things-index').append("<p><strong>" + d.title + "</strong>: " + d.description + "</p>");
+        });
+      });
+
+      // Form to create a new Thing
+      $('#new-submit').click(function () {
+        var data = {};
+
+        // Get the data from the form elements
+        data.title = $('#new-title').val();
+        data.description = $('#new-description').val();
+
+        $.ajax({
+          url: '/things',
+          method: 'POST',
+          data: JSON.stringify(data)
+        }).done(function (response) {
+          console.log(response);
+        });
+
+        // Prevent the form from being submitted.
+        return false;
+      });
+    });
+  </script>
+</head>
+<body>
+  <div id="things-index">
+    <h2>All Things</h2>
+  </div>
+
+
+  <h2>New Thing</h2>
+  <form id="new-thing">
+    <p><strong>Title:</strong></p>
+    <input id="new-title" name="title" type="text">
+
+    <p><strong>Description:</strong></p>
+    <textarea id="new-description" name="description"></textarea>
+
+    <p><input id="new-submit" type="submit"></p>
+  </form>
+
+</body>
+</html>

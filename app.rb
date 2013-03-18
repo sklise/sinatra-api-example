@@ -25,7 +25,7 @@ DataMapper.finalize
 DataMapper.auto_upgrade!
 
 get '/' do
-  "API Example"
+  send_file './public/index.html'
 end
 
 # Route to show all Things, ordered like a blog
@@ -89,4 +89,10 @@ delete '/things/:id/delete' do
   else
     halt 500
   end
+end
+
+# If there are no Things in the database, add a few.
+if Thing.count == 0
+  Thing.create(:title => "Test Thing One", :description => "Sometimes I eat pizza.")
+  Thing.create(:title => "Test Thing Two", :description => "Other times I eat cookies.")
 end
