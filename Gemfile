@@ -13,6 +13,6 @@ end
 
 # Heroku uses Postgres however, so we tell the Gemfile to use Postgres
 # in production instead of SQLite.
-group :development do
+group :production do
   gem 'dm-postgres-adapter'
 end
