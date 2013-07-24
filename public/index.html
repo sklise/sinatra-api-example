@@ -26,7 +26,7 @@
         $.ajax({
           url: '/things',
           method: 'POST',
-          data: JSON.stringify(data)
+          data: data
         }).done(function (response) {
           console.log(response);
         });
