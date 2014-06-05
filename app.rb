@@ -59,7 +59,7 @@ end
 # READ: Route to show a specific Thing based on its `id`
 get '/things/:id' do
   content_type :json
-  @thing = Thing.get(params[:id])
+  @thing = Thing.get(params[:id].to_i)
 
   if @thing
     @thing.to_json
@@ -80,7 +80,7 @@ put '/things/:id' do
   # If you are using jQuery's ajax functions, the data goes through in the
   # params.
 
-  @thing = Thing.get(params[:id])
+  @thing = Thing.get(params[:id].to_i)
   @thing.update(params)
 
   if @thing.save
@@ -93,7 +93,7 @@ end
 # DELETE: Route to delete a Thing
 delete '/things/:id/delete' do
   content_type :json
-  @thing = Thing.get(params[:id])
+  @thing = Thing.get(params[:id].to_i)
 
   if @thing.destroy
     {:success => "ok"}.to_json
